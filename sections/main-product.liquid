@@ -664,21 +664,20 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product-${data.items[0].k
   .then((response) => response.text())
   .then((responseText) => {
     // Parse the responseText as HTML
-    
-const parser = new DOMParser();
-    const htmlDocument = new DOMParser().parseFromString(responseText, 'text/html');
+    const html = new DOMParser().parseFromString(responseText, 'text/html');
 
-// Use a valid selector for the content you want to extract
-const selectors = "#shopify-section-cart-notification-product";
-console.log(htmlDocument.querySelector("body " + selectors));
+    // Use a valid selector for the content you want to extract
+    const selectors = ".shopify-section";
+    console.log(html.querySelector("body " + selectors));
 
-// Update the innerHTML of the target element
-const cartNotificationProductElement = document.querySelector("#cart-notification-product");
-cartNotificationProductElement.innerHTML = (htmlDocument.querySelector(selectors) || '').innerHTML;
+    // Update the innerHTML of the target element
+    const cartNotificationProductElement = document.querySelector("#cart-notification-product");
+    cartNotificationProductElement.innerHTML = (html.querySelector(selectors) || '').innerHTML;
   })
   .catch((e) => {
     console.error(e);
   });
+
 
 
 
