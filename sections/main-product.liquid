@@ -645,7 +645,7 @@ console.log(productId,"clicked")
     .then((response) => response.json())
     .then((data) => {
       // Handle the response data, you may want to redirect to the cart or show a success message
-      console.log('Product added to cart:', data);
+      console.log('Product added to cart:', `cart-notification-product-${data.items[0].key}`);
 
       fetch(`${routes.cart_url}?section_id=cart-notification-product`)
         .then((response) => response.text())
