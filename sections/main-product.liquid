@@ -668,7 +668,7 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product-${data.items[0].k
 
     // Use a valid selector for the content you want to extract
     const selectors = ".shopify-section";
-    console.log(html.querySelector(selectors))
+    console.log(html.querySelector(".shopify-section"))
     const cartNotificationProductElement = document.querySelector("#cart-notification-product");
     cartNotificationProductElement.innerHTML = (html.querySelector(selectors) || '').innerHTML;
   })
