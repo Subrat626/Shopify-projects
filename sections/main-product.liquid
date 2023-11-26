@@ -672,7 +672,7 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product`)
 
     // Update the innerHTML of the target element
     const cartNotificationProductElement = document.querySelector("#cart-notification-product");
-    cartNotificationProductElement.innerHTML =`<div class="line-item" >${(html.querySelector(selectors) || '').innerHTML}</div>;
+    cartNotificationProductElement.innerHTML =`<div class="line-item" >${(html.querySelector(selectors) || '').innerHTML}</div>`;
   })
   .catch((e) => {
     console.error(e);
