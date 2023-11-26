@@ -501,6 +501,7 @@ product-form .product-form__buttons{
                         </summary>
                       {%- endif -%}
                       <slideshow-component class="slider-mobile-gutter">
+                  {% comment %}
                         {%- assign number_of_slides = recommendations.products_count | plus: 0.0 | divided_by: block.settings.products_per_page | ceil -%}
                         <div id="Slider-{{ block.id }}" class="contains-card contains-card--product complementary-slider grid grid--1-col slider slider--everywhere" role="list"{% if number_of_slides > 1 %} aria-label="{{ 'general.slider.name' | t }}"{% endif %}>
                           {%- for i in (1..number_of_slides) -%}
@@ -546,6 +547,24 @@ product-form .product-form__buttons{
                             <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">{% render 'icon-caret' %}</button>
                           </div>
                         {%- endif -%}
+                  {% endcomment %}
+                  {% assign current_product_tags = product.tags | split: ', ' %}
+                  {% assign cross_sell_products = collections.all.products %}
+              {% for product in cross_sell_products %}
+  {% if product.tags contains current_product_tags.first %}
+    {% render 'card-product',
+        card_product: product,
+        media_aspect_ratio: block.settings.image_ratio,
+        show_secondary_image: false,
+        lazy_load: false,
+        show_quick_add: block.settings.enable_quick_add,
+        section_id: section.id,
+        horizontal_class: true,
+        horizontal_quick_add: true
+    %}
+  {% endif %}
+{% endfor %}
+
                       </slideshow-component>
                       {%- if block.settings.make_collapsible_row -%}
                         </details>
