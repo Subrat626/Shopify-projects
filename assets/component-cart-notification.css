@@ -104,7 +104,7 @@
 }
 
 .cart-item{
-  display:flex
+  display:flex !important
 }
 
 .cart-notification-product dl {
