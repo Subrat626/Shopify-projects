@@ -661,7 +661,7 @@ console.log(productId,"clicked")
         .then((responseText) => {
           const html = new DOMParser().parseFromString(responseText, 'text/html');
           const selectors = `#cart-notification-product-${data.items[0].key}`;
-          console.log(html.querySelector(selectors),"html.querySelector(selectors)")
+          console.log(html.querySelector(`${selectors}`),"html.querySelector(selectors)")
          document.querySelector("#cart-notification-product").innerHTML= html.querySelector(selectors)
         })
         .catch((e) => {
