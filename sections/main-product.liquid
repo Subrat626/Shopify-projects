@@ -666,17 +666,18 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product`)
     // Parse the responseText as HTML
     const html = new DOMParser().parseFromString(responseText, 'text/html');
 
-    // Use backticks for the selectors string
-    const selectors = `.shopify-section`;
-    //const sanitizedKey = data.items[0].key.replace(/[^a-zA-Z0-9-_]/g, '');
+    // Use a valid selector for the content you want to extract
+    const selectors = '.shopify-section'; // Adjust the selector based on your HTML structure
     console.log(html.querySelector(selectors), "html.querySelector(selectors)");
 
-    // Make sure to use backticks for the selectors string
-    document.querySelector("#cart-notification-product").innerHTML = html.querySelector(selectors).innerHTML;
+    // Update the innerHTML of the target element
+    const cartNotificationProductElement = document.querySelector("#cart-notification-product");
+    cartNotificationProductElement.innerHTML = html.querySelector(selectors)?.innerHTML || '';
   })
   .catch((e) => {
     console.error(e);
   });
+
 
     }).then(e=>{
       document.querySelector("#cart-notification").classList.add("active")
