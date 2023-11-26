@@ -660,7 +660,7 @@ console.log(productId,"clicked")
 // and contains the correct URL for fetching the cart content.
 
 // Make sure to use backticks for string interpolation
-fetch(`${routes.cart_url}?section_id=cart-notification-product`)
+fetch(`${routes.cart_url}?section_id=cart-notification-product-${data.items[0].key}`)
   .then((response) => response.text())
   .then((responseText) => {
     // Parse the responseText as HTML
