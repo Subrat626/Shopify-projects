@@ -646,18 +646,22 @@ console.log(productId,"clicked")
     .then((data) => {
       // Handle the response data, you may want to redirect to the cart or show a success message
       console.log('Product added to cart:', data);
-      fetch(`${routes.cart_url}?section_id=cart-drawer`)
+
+      fetch(`${routes.cart_url}?section_id=cart-notification-product`)
         .then((response) => response.text())
         .then((responseText) => {
           const html = new DOMParser().parseFromString(responseText, 'text/html');
-          const selectors = ['cart-drawer-items','#cart-notification-product', '.cart-drawer__footer'];
-          for (const selector of selectors) {
-            const targetElement = document.querySelector(selector);
-            const sourceElement = html.querySelector(selector);
-            if (targetElement && sourceElement) {
-              targetElement.replaceWith(sourceElement);
-            }
-          }
+        console.log(html)
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+      fetch(`${routes.cart_url}?section_id=cart-notification-product`)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
+          const selectors = `cart-notification-product-${data.items[0].key}`;
+         document.querySelector("#cart-notification-product").innerHTML= html.querySelector(selector)
         })
         .catch((e) => {
           console.error(e);
