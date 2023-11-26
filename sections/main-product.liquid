@@ -548,9 +548,14 @@ product-form .product-form__buttons{
                           </div>
                         {%- endif -%}
                   {% endcomment %}
-                  {% assign current_product_tags = product.tags | split: ', ' %}
-                  {% assign cross_sell_products = collections.all.products %}
-              {% for product in cross_sell_products %}
+
+                  {% comment %}
+                  Create logic for cross-sell and up-sell product details.
+                  {% endcomment %}
+                        
+                  {% assign current_product_tag = product.tags | split: ', ' %}
+                  {% assign recommendated_pro = collections.all.products %}
+              {% for product in recommendated_pro %}
   {% if product.tags contains current_product_tags.first %}
     {% render 'card-product',
         card_product: product,
