@@ -667,12 +667,12 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product`)
     const html = new DOMParser().parseFromString(responseText, 'text/html');
 
     // Use backticks for the selectors string
-    const selectors = `#cart-notification-product-${data.items[0].key}`;
-    const sanitizedKey = data.items[0].key.replace(/[^a-zA-Z0-9-_]/g, '');
-    console.log(html.querySelector(sanitizedKey), "html.querySelector(selectors)");
+    const selectors = `.shopify-section`;
+    //const sanitizedKey = data.items[0].key.replace(/[^a-zA-Z0-9-_]/g, '');
+    console.log(html.querySelector(selectors), "html.querySelector(selectors)");
 
     // Make sure to use backticks for the selectors string
-    document.querySelector("#cart-notification-product").innerHTML = html.querySelector(sanitizedKey);
+    document.querySelector("#cart-notification-product").innerHTML = html.querySelector(selectors);
   })
   .catch((e) => {
     console.error(e);
