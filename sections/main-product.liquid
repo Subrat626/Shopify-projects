@@ -646,6 +646,24 @@ console.log(productId,"clicked")
     .then((data) => {
       // Handle the response data, you may want to redirect to the cart or show a success message
       console.log('Product added to cart:', data);
+      fetch(`${routes.cart_url}?section_id=cart-drawer`)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
+          const selectors = ['cart-drawer-items', '.cart-drawer__footer'];
+          for (const selector of selectors) {
+            const targetElement = document.querySelector(selector);
+            const sourceElement = html.querySelector(selector);
+            if (targetElement && sourceElement) {
+              targetElement.replaceWith(sourceElement);
+            }
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }).then(e=>{
+      document.querySelector("#cart-notification").classList.add("active")
     })
     .catch((error) => {
       // Handle errors
