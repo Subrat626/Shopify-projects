@@ -555,20 +555,20 @@ product-form .product-form__buttons{
                         
                   {% assign current_product_tag = product.tags | split: ', ' %}
                   {% assign recommendated_pro = collections.all.products %}
-              {% for product in recommendated_pro %}
-  {% if product.tags contains current_product_tags.first %}
-    {% render 'card-product',
-        card_product: product,
-        media_aspect_ratio: block.settings.image_ratio,
-        show_secondary_image: false,
-        lazy_load: false,
-        show_quick_add: block.settings.enable_quick_add,
-        section_id: section.id,
-        horizontal_class: true,
-        horizontal_quick_add: true
-    %}
-  {% endif %}
-{% endfor %}
+                  {% for product in recommendated_pro %}
+                  {% if product.tags contains current_product_tags.first %}
+                    {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: block.settings.image_ratio,
+                        show_secondary_image: false,
+                        lazy_load: false,
+                        show_quick_add: block.settings.enable_quick_add,
+                        section_id: section.id,
+                        horizontal_class: true,
+                        horizontal_quick_add: true
+                    %}
+                  {% endif %}
+                {% endfor %}
 
                       </slideshow-component>
                       {%- if block.settings.make_collapsible_row -%}
