@@ -655,7 +655,7 @@ const productId = document.querySelector(".product-form input[name='id']").vaalu
 
 // Add a click event listener to the button
 addToCartBtn.addEventListener('click', () => {
-  // Make a POST request to the /cart/add.js endpoint
+console.log("clicked")  
   fetch('/cart/add.js', {
     method: 'POST',
     headers: {
