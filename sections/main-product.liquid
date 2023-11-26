@@ -669,7 +669,7 @@ const parser = new DOMParser();
     const htmlDocument = new DOMParser().parseFromString(responseText, 'text/html');
 
 // Use a valid selector for the content you want to extract
-const selectors = ".shopify-section";
+const selectors = "#shopify-section-cart-notification-product";
 console.log(htmlDocument.querySelector("body " + selectors));
 
 // Update the innerHTML of the target element
