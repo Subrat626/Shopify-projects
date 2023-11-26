@@ -664,8 +664,9 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product-${data.items[0].k
   .then((response) => response.text())
   .then((responseText) => {
     // Parse the responseText as HTML
-   const parser = new DOMParser();
-const htmlDocument = parser.parseFromString(htmlString, 'text/html');
+    
+const parser = new DOMParser();
+    const htmlDocument = new DOMParser().parseFromString(responseText, 'text/html');
 
 // Use a valid selector for the content you want to extract
 const selectors = ".shopify-section";
