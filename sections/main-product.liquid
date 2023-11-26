@@ -669,7 +669,7 @@ fetch(`${routes.cart_url}?section_id=cart-notification-product`)
     // Use a valid selector for the content you want to extract
     const selectors = `[key="${data.items[0].key}"]`;
     const cartNotificationProductElement = document.querySelector("#cart-notification-product");
-    cartNotificationProductElement.innerHTML = (html.querySelector(selectors) || '').innerHTML;
+    cartNotificationProductElement.innerHTML += (html.querySelector(selectors) || '').innerHTML;
   })
   .catch((e) => {
     console.error(e);
