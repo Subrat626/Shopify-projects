@@ -36,7 +36,7 @@
 
 <div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
   {%- paginate collection.products by section.settings.products_per_page -%}
-    {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
+    {% comment %} Sort is the first tabbable element when filter type is vertical
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
       <facet-filters-form class="facets facets-vertical-sort page-width small-hide no-js-hidden">
         <form class="facets-vertical-form" id="FacetSortForm">
@@ -97,10 +97,11 @@
         </form>
       </facet-filters-form>
     {%- endif -%}
-
+ {% endcomment %}
     <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
       {{ 'component-facets.css' | asset_url | stylesheet_tag }}
       <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+    {% comment %}
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"
@@ -117,8 +118,8 @@
           %}
         </aside>
       {%- endif -%}
-
-      <div
+ {% endcomment %}
+    <div
         class="product-grid-container{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
         id="ProductGridContainer"
         {% if settings.animations_reveal_on_scroll %}
@@ -140,8 +141,10 @@
             </div>
           </div>
         {%- else -%}
+    
           <div class="collection{% if section.settings.filter_type != 'vertical' %} page-width{% endif %}">
             <div class="loading-overlay gradient"></div>
+    
         <div class="accordion">
           <h2>{{ section.settings.category_top.title }}</h2>
             <ul
