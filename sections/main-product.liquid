@@ -18,7 +18,9 @@
       padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
       padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
     }
-
+product-form .product-form__buttons{
+  display:none !important;
+}
     @media screen and (min-width: 750px) {
       .section-{{ section.id }}-padding {
         padding-top: {{ section.settings.padding_top }}px;
@@ -410,6 +412,36 @@
             {%- when 'variant_picker' -%}
               {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
             {%- when 'buy_buttons' -%}
+             <div class="product-form__buttons">
+          {%- liquid
+            assign check_against_inventory = true
+            if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+              assign check_against_inventory = false
+            endif
+            if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+              assign quantity_rule_soldout = true
+            endif
+          -%}
+          <button
+            id="ProductSubmitButton-{{ section_id }}"
+            type="button"
+            name="add"
+            class="product-form__submit duplicateBtn button button--full-width {% if show_dynamic_checkout %}button--secondary{% else %}button--primary{% endif %}"
+            {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+              disabled
+            {% endif %}
+          >
+            <span>
+              {%- if product.selected_or_first_available_variant.available == false or quantity_rule_soldout -%}
+                {{ 'products.product.sold_out' | t }}
+              {%- else -%}
+                {{ 'products.product.add_to_cart' | t }}
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+          
+        </div>
               {%- render 'buy-buttons', block: block, product: product, product_form_id: product_form_id, section_id: section.id, show_pickup_availability: true -%}
             {%- when 'rating' -%}
               {%- if product.metafields.reviews.rating.value != blank -%}
@@ -469,6 +501,7 @@
                         </summary>
                       {%- endif -%}
                       <slideshow-component class="slider-mobile-gutter">
+                  {% comment %}
                         {%- assign number_of_slides = recommendations.products_count | plus: 0.0 | divided_by: block.settings.products_per_page | ceil -%}
                         <div id="Slider-{{ block.id }}" class="contains-card contains-card--product complementary-slider grid grid--1-col slider slider--everywhere" role="list"{% if number_of_slides > 1 %} aria-label="{{ 'general.slider.name' | t }}"{% endif %}>
                           {%- for i in (1..number_of_slides) -%}
@@ -514,6 +547,29 @@
                             <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">{% render 'icon-caret' %}</button>
                           </div>
                         {%- endif -%}
+                  {% endcomment %}
+
+                  {% comment %}
+                  Create logic for cross-sell and up-sell product details.
+                  {% endcomment %}
+                        
+                  {% assign current_product_tag = product.tags | split: ', ' %}
+                  {% assign recommendated_pro = collections.all.products %}
+                  {% for product in recommendated_pro %}
+                  {% if product.tags contains current_product_tags.first %}
+                    {% render 'card-product',
+                        card_product: product,
+                        media_aspect_ratio: block.settings.image_ratio,
+                        show_secondary_image: false,
+                        lazy_load: false,
+                        show_quick_add: block.settings.enable_quick_add,
+                        section_id: section.id,
+                        horizontal_class: true,
+                        horizontal_quick_add: true
+                    %}
+                  {% endif %}
+                {% endfor %}
+
                       </slideshow-component>
                       {%- if block.settings.make_collapsible_row -%}
                         </details>
@@ -587,7 +643,63 @@
     </script>
     <script src="{{ 'product-model.js' | asset_url }}" defer></script>
   {%- endif -%}
+<script>
+       //custom Add to cart function
 
+const addToCartBtn = document.querySelector('.duplicateBtn ');
+const productId = document.querySelector(".product-form input[name='id']").value;
+addToCartBtn.addEventListener('click', () => {
+console.log(productId,"clicked")  
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      items: [
+        {
+          id: productId,
+          quantity: 1,
+        },
+      ],
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response data, you may want to redirect to the cart or show a success message
+      console.log('Product added to cart:', `cart-notification-product-${data.items[0].key}`);
+
+      fetch(`${routes.cart_url}?section_id=cart-notification-product`)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
+        console.log(html)
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+//fetch section api 
+fetch(`${routes.cart_url}?section_id=cart-notification-product`)
+  .then((response) => response.text())
+  .then((responseText) => {
+    // Parse the responseText as HTML
+    const html = new DOMParser().parseFromString(responseText, 'text/html');
+    const selectors = ".shopify-section";
+    const cartNotificationProductElement = document.querySelector("#cart-notification-product");
+    cartNotificationProductElement.innerHTML =`<div class="line-item" >${(html.querySelector(selectors) || '').innerHTML}</div>`;
+  })
+  .catch((e) => {
+    console.error(e);
+  });
+    }).then(e=>{
+      document.querySelector("#cart-notification").classList.add("active")
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error('Error adding to cart:', error);
+    });
+})
+</script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       function isIE() {

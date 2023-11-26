@@ -100,6 +100,11 @@
   display: flex;
   padding-bottom: 3rem;
   padding-top: 2rem;
+  flex-direction:column;
+}
+
+.cart-item{
+  display:flex !important
 }
 
 .cart-notification-product dl {
