@@ -222,7 +222,13 @@
     {% render 'mask-arch' %}
   {%- endif -%}
 </div>
-
+<script>
+  document.querySelector(".accordion h2").forEach(eachEl=>{
+    eachEl.addEventListener("click",function(e){
+      e.target.classList.toggle("actived")
+    })
+  })
+</script>
 {% schema %}
 {
   "name": "t:sections.main-collection-product-grid.name",
