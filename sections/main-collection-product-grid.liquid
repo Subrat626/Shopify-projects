@@ -223,7 +223,7 @@
   {%- endif -%}
 </div>
 <script>
-  document.querySelector(".accordion h2").forEach(eachEl=>{
+  document.querySelectorAll(".accordion h2").forEach(eachEl=>{
     eachEl.addEventListener("click",function(e){
       e.target.classList.toggle("actived")
     })
