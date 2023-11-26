@@ -239,13 +239,14 @@
 <script>
   document.querySelectorAll(".accordion h2").forEach(eachEl=>{
     eachEl.addEventListener("click",function(e){
-      e.target.closest(".accordion").classList.toggle("actived")
-    })
-    if(e.target.closest(".accordion").classList.contains("activated")){
+      e.target.closest(".accordion").classList.toggle("actived");
+      if(e.target.closest(".accordion").classList.contains("activated")){
       e.querySelector("span").innerText="-"
     }else{
        e.querySelector("span").innerText="+"
     }
+    })
+    
   })
 </script>
 {% schema %}
