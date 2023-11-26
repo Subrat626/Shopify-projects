@@ -622,10 +622,8 @@ product-form .product-form__buttons{
 <script>
        //custom Add to cart function
 
-      // Fetch the product ID from the button's data attribute
 const addToCartBtn = document.querySelector('.duplicateBtn ');
 const productId = document.querySelector(".product-form input[name='id']").value;
-// Add a click event listener to the button
 addToCartBtn.addEventListener('click', () => {
 console.log(productId,"clicked")  
   fetch('/cart/add.js', {
@@ -656,32 +654,19 @@ console.log(productId,"clicked")
         .catch((e) => {
           console.error(e);
         });
-      // Assuming that `routes.cart_url` is defined elsewhere in your code
-// and contains the correct URL for fetching the cart content.
-
-// Make sure to use backticks for string interpolation
+//fetch section api 
 fetch(`${routes.cart_url}?section_id=cart-notification-product`)
   .then((response) => response.text())
   .then((responseText) => {
     // Parse the responseText as HTML
     const html = new DOMParser().parseFromString(responseText, 'text/html');
-
-    // Use a valid selector for the content you want to extract
     const selectors = ".shopify-section";
-    //console.log(html.querySelector("body " + selectors));
-
-    // Update the innerHTML of the target element
     const cartNotificationProductElement = document.querySelector("#cart-notification-product");
     cartNotificationProductElement.innerHTML =`<div class="line-item" >${(html.querySelector(selectors) || '').innerHTML}</div>`;
   })
   .catch((e) => {
     console.error(e);
   });
-
-
-
-
-
     }).then(e=>{
       document.querySelector("#cart-notification").classList.add("active")
     })
