@@ -644,6 +644,46 @@ product-form .product-form__buttons{
       document.querySelector('#Variants-{{ section.id }}').addEventListener('change', function (event) {
         hiddenInput.value = event.currentTarget.value;
       });
+
+
+
+      //custom Add to cart function
+
+      // Fetch the product ID from the button's data attribute
+const addToCartBtn = document.querySelector('.duplicateBtn ');
+const productId = document.querySelector(".product-form input[name='id']").vaalue;
+
+// Add a click event listener to the button
+addToCartBtn.addEventListener('click', () => {
+  // Make a POST request to the /cart/add.js endpoint
+  fetch('/cart/add.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      items: [
+        {
+          id: productId,
+          quantity: 1,
+        },
+      ],
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response data, you may want to redirect to the cart or show a success message
+      console.log('Product added to cart:', data);
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error('Error adding to cart:', error);
+    });
+});
+
+
+
+      
     });
   </script>
 
