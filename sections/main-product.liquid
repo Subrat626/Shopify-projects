@@ -649,7 +649,6 @@ product-form .product-form__buttons{
 const addToCartBtn = document.querySelector('.duplicateBtn ');
 const productId = document.querySelector(".product-form input[name='id']").value;
 addToCartBtn.addEventListener('click', () => {
-console.log(productId,"clicked")  
   fetch('/cart/add.js', {
     method: 'POST',
     headers: {
